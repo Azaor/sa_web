@@ -17,10 +17,6 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          export VITE_KEYCLOAK_URL=https://auth.speech-analytics.fr
-          export VITE_KEYCLOAK_REALM=speech-analytics
-          export VITE_KEYCLOAK_CLIENT=speech-analytics-front-end
-          export VITE_API_URL=https://api.speech-analytics.fr
           docker build -t speech_analytics_web:${{ github.event.inputs.tag_name }} -t speech_analytics_web:latest -f ./deployment/Dockerfile.app .
 
       - name: Install doctl (DigitalOcean CLI)

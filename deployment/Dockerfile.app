@@ -15,7 +15,10 @@ RUN npm ci --only=production && npm install --only=dev
 
 # Copier tout le code source
 COPY . .
-
+ENV VITE_KEYCLOAK_URL https://auth.speech-analytics.fr
+ENV VITE_KEYCLOAK_REALM speech-analytics
+ENV VITE_KEYCLOAK_CLIENT speech-analytics-front-end
+ENV VITE_API_URL https://api.speech-analytics.fr
 # Construire l'application avec SvelteKit
 RUN npm run build
 
