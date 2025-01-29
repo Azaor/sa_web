@@ -48,8 +48,12 @@ async function fetch_cached(url: string, options?: RequestInit): Promise<any> {
     return data;
 }
 
-export async function getPeople(): Promise<Person[]> {
-    const response = await fetch_cached(`${API_BASE}/api/person`);
+export async function getPeople(quantity: Number = 10, page: Number = 0): Promise<{ people: Person[], nbPerson: number }> {
+    let urlParams: { quantity: string, page: string } = {
+        quantity: quantity.toString(),
+        page: page.toString(),
+    }
+    const response = await fetch_cached(`${API_BASE}/api/person?` + new URLSearchParams(urlParams));
     return response
 }
 

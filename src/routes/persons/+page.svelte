@@ -9,11 +9,18 @@
     let getUserInfo: () => any = getContext("getUserInfo");
 
     let people: Person[] = $state([]);
+    let nbElementPerPage = $state(10);
     let currentPage = $state(0);
     let totalPages = $state(0);
 
-    onMount(async () => {
-        people = await getPeople();
+    async function updatePeople(nbElement: Number, currPage: number) {
+        let result = await getPeople(nbElement, currPage);
+        people = result.people;
+        totalPages = Math.floor(result.nbPerson / nbElementPerPage);
+    }
+
+    $effect(() => {
+        updatePeople(nbElementPerPage, currentPage);
     });
 </script>
 
@@ -102,19 +109,23 @@
         <button
             type="button"
             class="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
-            onclick={() => {}}
-            disabled={currentPage <= 1}
+            onclick={() => {
+                currentPage -= 1;
+            }}
+            disabled={currentPage == 0}
         >
             Précédent
         </button>
         <p class="text-sm text-gray-700">
-            Page {currentPage} sur {totalPages}
+            Page {currentPage + 1} sur {totalPages + 1}
         </p>
         <button
             type="button"
             class="px-4 py-2 text-sm text-white bg-blue-600 rounded-lg shadow hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
-            onclick={() => {}}
-            disabled={currentPage === totalPages}
+            onclick={() => {
+                currentPage += 1;
+            }}
+            disabled={currentPage + 1 === totalPages + 1}
         >
             Suivant
         </button>
